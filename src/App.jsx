@@ -1,10 +1,10 @@
-import Form from "./components/form"
+import Formulario from './components/Formulario'
 
 const App = () => {
-  return (
-    <>
-      <Form />
-    </>
-  )
+    return (
+        <>
+            <Formulario />
+        </>
+    )
 }
 export default App
