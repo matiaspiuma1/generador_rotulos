@@ -1,33 +1,32 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
-const AgregarIngrediente = ({ setRotulo }) => {
-    const [nuevoIngrediente, setNuevoIngrediente] = useState('')
+const AgregarIngrediente = ({ rotulo, setRotulo }) => {
+    // Se inicializan los estados donde se van a guardar los ingredientes y donde se va a capturar el ingrediente
+    const [ingredientes, setIngredientes] = useState([])
+    const [ingrediente, setIngrediente] = useState('')
 
-    const agregar = () => {
-        // Obtengo la version previa del rotulo y copio todas sus propiedades en un nuevo objeto. La propiedad de "ingredientes" la modifica sin intervenir en las demas propiedades.
+    // Este useEffect detecta si hay algun cambio en el array de ingredientes y lo que hace es agregar al rotulo los ingredientes
+    useEffect(() => {
+        setRotulo({ ...rotulo, ingredientes })
+    }, [ingredientes])
 
-        // Tambien a su vez, lo que hace [...prev.ingredientes] es crear una nueva copia del array de ingredientes para mantener los ingredientes previos y agregar a lo ultimo uno nuevo. Tambien lo limpia de que no tenga espacios en blanco
-        setRotulo((prev) => ({
-            ...prev,
-            ingredientes: [...prev.ingredientes, nuevoIngrediente.trim()],
-        }))
-
-        // Limpio el input despues de agregar un nuevo ingrediente
-        setNuevoIngrediente('')
+    // Funcion para agregar ingrediente mediante el evento de click en el boton y resetear el input a una cadena vacia
+    const agregarIngrediente = () => {
+        setIngredientes([...ingredientes, ingrediente])
+        setIngrediente('')
     }
 
     return (
-        <label>
-            Ingrediente:
+        <>
+            <label htmlFor="Ingrediente">Ingrediente:</label>
             <input
-                placeholder="Ej: sal"
                 type="text"
-                name="Ingrediente"
-                value={nuevoIngrediente}
-                onChange={(ev) => setNuevoIngrediente(ev.target.value)}
+                id="Ingrediente"
+                value={ingrediente}
+                onChange={(ev) => setIngrediente(ev.target.value)}
             />
-            <button onClick={agregar}>Agregar ingrediente</button>
-        </label>
+            <button onClick={agregarIngrediente}>Agregar ingrediente</button>
+        </>
     )
 }
 export default AgregarIngrediente
